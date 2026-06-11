@@ -9,6 +9,7 @@ from app.config import MONGODB_URL, MONGODB_DB_NAME
 from app.services.database import init_db, close_db
 from app.api.auth import router as auth_router
 from app.api.family import router as family_router
+from app.api.transaction import router as transaction_router
 
 
 @asynccontextmanager
@@ -38,6 +39,7 @@ app.add_middleware(
 # 注册路由
 app.include_router(auth_router)
 app.include_router(family_router)
+app.include_router(transaction_router)
 
 
 @app.get("/api/v1/health")
