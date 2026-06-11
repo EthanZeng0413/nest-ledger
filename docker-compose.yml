@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   api:
     build: ./server
@@ -7,9 +5,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MONGODB_URL=mongodb://mongo:27017
+      - MONGODB_URL=mongodb://nestapp:N3stLedgerApp2026@mongo:27017/nest_ledger?authSource=nest_ledger
       - MONGODB_DB_NAME=nest_ledger
-      - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-production}
+      - JWT_SECRET=${JWT_SECRET}
       - WECHAT_APPID=${WECHAT_APPID}
       - WECHAT_SECRET=${WECHAT_SECRET}
     depends_on:
@@ -20,10 +18,11 @@ services:
   mongo:
     image: mongo:7
     container_name: nest-ledger-mongo
+    command: --auth
     volumes:
       - mongo_data:/data/db
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      test: ["CMD", "mongosh", "--quiet", "-u", "admin", "-p", "N3stLedgerAdmin2026", "--authenticationDatabase", "admin", "--eval", "db.runCommand('ping').ok"]
       interval: 10s
       timeout: 5s
       retries: 5
