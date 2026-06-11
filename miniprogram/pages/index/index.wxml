@@ -1,0 +1,30 @@
+<!-- 记账首页 -->
+<view class="container">
+  <!-- 月度汇总 -->
+  <view class="summary-bar">
+    <view class="summary-item">
+      <text class="summary-label">收入</text>
+      <text class="summary-value text-income">¥{{monthlyIncome}}</text>
+    </view>
+    <view class="summary-item">
+      <text class="summary-label">支出</text>
+      <text class="summary-value text-expense">¥{{monthlyExpense}}</text>
+    </view>
+  </view>
+
+  <!-- 账单列表 -->
+  <view class="transaction-list" wx:if="{{transactions.length > 0}}">
+    <block wx:for="{{transactions}}" wx:key="id">
+      <view class="transaction-item">
+        <text>{{item.category}}</text>
+        <text>{{item.amount}}</text>
+      </view>
+    </block>
+  </view>
+  <view class="empty-state" wx:else>
+    <text>暂无账单记录</text>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-btn" bindtap="onAddTap">+</view>
+</view>

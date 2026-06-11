@@ -1,0 +1,25 @@
+.container {
+  padding: 20rpx;
+}
+
+.overview-card {
+  background: var(--card-bg);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.overview-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.overview-item {
+  text-align: center;
+}
+
+.category-section {
+  background: var(--card-bg);
+  border-radius: 16rpx;
+  padding: 30rpx;
+}

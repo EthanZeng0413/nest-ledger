@@ -1,0 +1,29 @@
+.container {
+  padding: 20rpx;
+  min-height: 100vh;
+}
+
+.summary-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 30rpx;
+  background: var(--card-bg);
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.add-btn {
+  position: fixed;
+  bottom: 120rpx;
+  right: 40rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 48rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(76, 175, 80, 0.4);
+}

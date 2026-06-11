@@ -1,0 +1,16 @@
+<!-- 共享日历 -->
+<view class="container">
+  <view class="calendar-placeholder">
+    <text>日历视图（将集成 Vant Calendar 组件）</text>
+  </view>
+
+  <!-- 当日事件列表 -->
+  <view class="event-list" wx:if="{{selectedDate}}">
+    <view class="event-date">{{selectedDate}}</view>
+    <block wx:for="{{selectedDateEvents}}" wx:key="id">
+      <view class="event-item">
+        <text>{{item.title}}</text>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+{
+  "name": "nest-ledger-miniprogram",
+  "version": "0.1.0",
+  "description": "窝记 - 家庭共享记账与日历微信小程序",
+  "dependencies": {
+    "@vant/weapp": "^1.11.7"
+  }
+}

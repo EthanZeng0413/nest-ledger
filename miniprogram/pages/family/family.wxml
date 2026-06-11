@@ -1,0 +1,27 @@
+<!-- 家庭设置 -->
+<view class="container">
+  <!-- 无家庭时 -->
+  <view class="no-family" wx:if="{{!familyInfo}}">
+    <text class="no-family-text">你还没有加入家庭</text>
+    <button bindtap="onCreateFamily">创建家庭</button>
+    <button bindtap="onJoinFamily">通过邀请码加入</button>
+  </view>
+
+  <!-- 有家庭时 -->
+  <view class="family-info" wx:else>
+    <view class="family-name">{{familyInfo.name}}</view>
+    <view class="invite-code">邀请码：{{inviteCode}}</view>
+
+    <view class="member-section">
+      <view class="section-title">家庭成员（{{members.length}}人）</view>
+      <block wx:for="{{members}}" wx:key="user_id">
+        <view class="member-item">
+          <text>{{item.nickname}}</text>
+          <text class="role-tag">{{item.role === 'creator' ? '创建者' : '成员'}}</text>
+        </view>
+      </block>
+    </view>
+
+    <button class="leave-btn" bindtap="onLeaveFamily">退出家庭</button>
+  </view>
+</view>

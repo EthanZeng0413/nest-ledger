@@ -1,0 +1,50 @@
+.container {
+  padding: 20rpx;
+  min-height: 100vh;
+}
+
+.no-family {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200rpx;
+}
+
+.no-family-text {
+  font-size: 32rpx;
+  color: var(--text-hint);
+  margin-bottom: 40rpx;
+}
+
+.family-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+  margin: 30rpx 0;
+}
+
+.invite-code {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+}
+
+.member-section {
+  background: var(--card-bg);
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.role-tag {
+  font-size: 22rpx;
+  color: var(--text-hint);
+  background: var(--bg-color);
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.leave-btn {
+  margin-top: 40rpx;
+  color: var(--danger-color);
+}

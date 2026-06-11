@@ -1,0 +1,11 @@
+.container {
+  padding: 20rpx;
+}
+
+.calendar-placeholder {
+  padding: 100rpx;
+  text-align: center;
+  color: var(--text-hint);
+  background: var(--card-bg);
+  border-radius: 16rpx;
+}
