@@ -1,30 +1,146 @@
 <!-- 记账首页 -->
 <view class="container">
-  <!-- 月度汇总 -->
+  <!-- 月份切换 -->
+  <view class="month-bar">
+    <view class="month-arrow" bindtap="onPrevMonth">‹</view>
+    <text class="month-label">{{currentMonthLabel}}</text>
+    <view class="month-arrow" bindtap="onNextMonth">›</view>
+  </view>
+
+  <!-- 收支汇总 -->
   <view class="summary-bar">
     <view class="summary-item">
-      <text class="summary-label">收入</text>
-      <text class="summary-value text-income">¥{{monthlyIncome}}</text>
+      <text class="s-label">收入</text>
+      <text class="s-value text-income">+{{monthlyIncome.toFixed(2)}}</text>
     </view>
+    <view class="summary-divider"></view>
     <view class="summary-item">
-      <text class="summary-label">支出</text>
-      <text class="summary-value text-expense">¥{{monthlyExpense}}</text>
+      <text class="s-label">支出</text>
+      <text class="s-value text-expense">-{{monthlyExpense.toFixed(2)}}</text>
     </view>
   </view>
 
   <!-- 账单列表 -->
-  <view class="transaction-list" wx:if="{{transactions.length > 0}}">
-    <block wx:for="{{transactions}}" wx:key="id">
-      <view class="transaction-item">
-        <text>{{item.category}}</text>
-        <text>{{item.amount}}</text>
+  <scroll-view scroll-y class="tx-list" wx:if="{{!loading}}">
+    <block wx:if="{{groupedTransactions.length > 0}}">
+      <view class="date-group" wx:for="{{groupedTransactions}}" wx:key="date">
+        <!-- 日期头 -->
+        <view class="date-header">
+          <text class="date-label">{{item.dateLabel}}</text>
+          <view class="date-summary">
+            <text class="day-income" wx:if="{{item.dayIncome > 0}}">收 ¥{{item.dayIncome.toFixed(2)}}</text>
+            <text class="day-expense" wx:if="{{item.dayExpense > 0}}">支 ¥{{item.dayExpense.toFixed(2)}}</text>
+          </view>
+        </view>
+
+        <!-- 账单条目 -->
+        <view
+          class="tx-item"
+          wx:for="{{item.items}}"
+          wx:for-item="tx"
+          wx:key="id"
+          data-id="{{tx.id}}"
+          bindlongpress="onDeleteItem"
+        >
+          <view class="tx-icon {{tx.type}}">
+            <text>{{tx.category === '餐饮' ? '🍽' : tx.category === '交通' ? '🚗' : tx.category === '购物' ? '🛒' : tx.category === '住房' ? '🏠' : tx.category === '娱乐' ? '🎮' : tx.category === '医疗' ? '💊' : tx.category === '教育' ? '📚' : tx.type === 'income' ? '💰' : '📌'}}</text>
+          </view>
+          <view class="tx-info">
+            <text class="tx-category">{{tx.category}}</text>
+            <text class="tx-note" wx:if="{{tx.note}}">{{tx.note}}</text>
+          </view>
+          <view class="tx-right">
+            <text class="tx-amount {{tx.type === 'income' ? 'income' : 'expense'}}">
+              {{tx.type === 'income' ? '+' : '-'}}{{tx.amount.toFixed(2)}}
+            </text>
+            <text class="tx-user">{{tx.nickname}}</text>
+          </view>
+        </view>
       </view>
     </block>
-  </view>
-  <view class="empty-state" wx:else>
-    <text>暂无账单记录</text>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <text class="empty-icon">📝</text>
+      <text class="empty-text">本月暂无账单</text>
+      <text class="empty-hint">点击右下角 + 开始记账</text>
+    </view>
+  </scroll-view>
+
+  <!-- FAB 添加按钮 -->
+  <view class="fab" bindtap="onOpenAdd">
+    <text class="fab-text">+</text>
   </view>
 
-  <!-- 添加按钮 -->
-  <view class="add-btn" bindtap="onAddTap">+</view>
+  <!-- ====== 添加账单弹窗 ====== -->
+  <view class="dialog-mask" wx:if="{{showAddDialog}}" bindtap="onCloseAdd">
+    <view class="add-dialog" catchtap="noop">
+      <!-- 类型切换 -->
+      <view class="type-tabs">
+        <view
+          class="type-tab {{addType === 'expense' ? 'expense active' : 'expense'}}"
+          data-type="expense"
+          bindtap="onTypeTap"
+        >
+          <text>支出</text>
+        </view>
+        <view
+          class="type-tab {{addType === 'income' ? 'income active' : 'income'}}"
+          data-type="income"
+          bindtap="onTypeTap"
+        >
+          <text>收入</text>
+        </view>
+      </view>
+
+      <!-- 金额输入 -->
+      <view class="amount-row">
+        <text class="currency">¥</text>
+        <input
+          class="amount-input"
+          type="digit"
+          placeholder="0.00"
+          value="{{addAmount}}"
+          bindinput="onAmountInput"
+          focus="{{showAddDialog}}"
+        />
+      </view>
+
+      <!-- 分类选择 -->
+      <view class="category-grid">
+        <view
+          class="cat-item {{addCategory === cat ? 'selected' : ''}}"
+          wx:for="{{addType === 'expense' ? expenseCategories : incomeCategories}}"
+          wx:key="*this"
+          data-cat="{{item}}"
+          bindtap="onCategoryTap"
+        >
+          <text>{{item}}</text>
+        </view>
+      </view>
+
+      <!-- 日期 & 备注 -->
+      <view class="extra-fields">
+        <picker mode="date" value="{{addDate}}" bindchange="onDateChange">
+          <view class="field-row">
+            <text class="field-label">日期</text>
+            <text class="field-value">{{addDate}}</text>
+          </view>
+        </picker>
+        <view class="field-row">
+          <text class="field-label">备注</text>
+          <input
+            class="field-input"
+            placeholder="选填"
+            value="{{addNote}}"
+            bindinput="onNoteInput"
+            maxlength="100"
+          />
+        </view>
+      </view>
+
+      <!-- 确认按钮 -->
+      <button class="submit-btn" bindtap="onConfirmAdd">确认添加</button>
+    </view>
+  </view>
 </view>
