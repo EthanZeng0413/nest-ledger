@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-data/
+
+# WeChat
+miniprogram/node_modules/
+miniprogram/miniprogram_npm/
+
+# OpenSpec
+.openspec.yaml
