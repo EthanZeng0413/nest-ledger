@@ -1,16 +1,115 @@
 <!-- 共享日历 -->
 <view class="container">
-  <view class="calendar-placeholder">
-    <text>日历视图（将集成 Vant Calendar 组件）</text>
+  <!-- 月份切换 -->
+  <view class="month-bar">
+    <view class="month-arrow" bindtap="onPrevMonth">‹</view>
+    <text class="month-label">{{currentMonthLabel}}</text>
+    <view class="month-arrow" bindtap="onNextMonth">›</view>
   </view>
 
-  <!-- 当日事件列表 -->
-  <view class="event-list" wx:if="{{selectedDate}}">
-    <view class="event-date">{{selectedDate}}</view>
-    <block wx:for="{{selectedDateEvents}}" wx:key="id">
-      <view class="event-item">
-        <text>{{item.title}}</text>
+  <!-- 日历网格 -->
+  <view class="calendar-grid">
+    <!-- 星期头 -->
+    <view class="weekday-row">
+      <text class="weekday" wx:for="{{weekDays}}" wx:key="*this">{{item}}</text>
+    </view>
+
+    <!-- 日期网格 -->
+    <view class="day-grid">
+      <view
+        class="day-cell {{item.isCurrentMonth ? '' : 'dimmed'}} {{item.isToday ? 'today' : ''}} {{item.dateStr === selectedDate ? 'selected' : ''}}"
+        wx:for="{{days}}"
+        wx:key="dateStr"
+        data-date-str="{{item.dateStr}}"
+        bindtap="onDayTap"
+      >
+        <text class="day-num">{{item.day}}</text>
+        <view class="event-dot" wx:if="{{item.hasEvent}}"></view>
       </view>
-    </block>
+    </view>
+  </view>
+
+  <!-- 选中日期的事件列表 -->
+  <view class="event-panel" wx:if="{{selectedDate}}">
+    <view class="panel-header">
+      <text class="panel-date">{{selectedDateLabel}}</text>
+      <view class="add-event-btn" bindtap="onOpenAdd">
+        <text>+ 添加</text>
+      </view>
+    </view>
+
+    <view class="event-list">
+      <block wx:if="{{selectedDateEvents.length > 0}}">
+        <view
+          class="event-item"
+          wx:for="{{selectedDateEvents}}"
+          wx:key="id"
+          data-event="{{item}}"
+          data-id="{{item.id}}"
+        >
+          <view class="event-left">
+            <text class="event-title">{{item.title}}</text>
+            <text class="event-time">{{item.start_time.slice(11, 16)}}</text>
+            <text class="event-note" wx:if="{{item.note}}">{{item.note}}</text>
+          </view>
+          <view class="event-right" wx:if="{{item.is_mine}}">
+            <text class="event-action" data-event="{{item}}" bindtap="onEditEvent">编辑</text>
+            <text class="event-action delete" data-id="{{item.id}}" bindtap="onDeleteEvent">删除</text>
+          </view>
+          <view class="event-creator" wx:else>
+            <text>{{item.nickname}}</text>
+          </view>
+        </view>
+      </block>
+      <view class="no-events" wx:else>
+        <text>这天没有安排</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ====== 添加/编辑事件弹窗 ====== -->
+  <view class="dialog-mask" wx:if="{{showDialog}}" bindtap="onCloseDialog">
+    <view class="event-dialog" catchtap="noop">
+      <view class="dialog-title">{{editMode ? '编辑事件' : '添加事件'}}</view>
+
+      <input
+        class="dialog-input"
+        placeholder="事件标题（如：交房租）"
+        value="{{eventTitle}}"
+        bindinput="onTitleInput"
+        maxlength="50"
+      />
+
+      <picker mode="multiSelector" value="{{[0,0]}}" bindchange="onTimeChange">
+        <view class="field-row">
+          <text class="field-label">时间</text>
+          <text class="field-value">{{eventStartTime}}</text>
+        </view>
+      </picker>
+
+      <view class="field-row">
+        <text class="field-label">重复</text>
+        <picker mode="selector" range="{{['不重复','每天','每周','每月']}}" bindchange="onRepeatChange">
+          <text class="field-value">
+            {{eventRepeatType === 'none' ? '不重复' : eventRepeatType === 'daily' ? '每天' : eventRepeatType === 'weekly' ? '每周' : eventRepeatType === 'monthly' ? '每月' : '不重复'}}
+          </text>
+        </picker>
+      </view>
+
+      <input
+        class="dialog-input"
+        placeholder="备注（选填）"
+        value="{{eventNote}}"
+        bindinput="onNoteInput"
+        maxlength="100"
+      />
+
+      <view class="dialog-btns">
+        <button class="dialog-btn cancel" bindtap="onCloseDialog">取消</button>
+        <button class="dialog-btn confirm" bindtap="onConfirmCreate">
+          {{editMode ? '保存' : '创建'}}
+        </button>
+      </view>
+    </view>
   </view>
 </view>
