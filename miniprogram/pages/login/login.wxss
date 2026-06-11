@@ -1,0 +1,143 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+  padding: 0 60rpx;
+}
+
+/* 品牌区 */
+.brand-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 160rpx;
+  margin-bottom: 60rpx;
+}
+
+.logo {
+  font-size: 120rpx;
+  margin-bottom: 20rpx;
+}
+
+.app-name {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #2E7D32;
+  margin-bottom: 12rpx;
+}
+
+.slogan {
+  font-size: 28rpx;
+  color: #66BB6A;
+}
+
+/* 用户信息 */
+.user-form {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24rpx;
+  padding: 60rpx 40rpx;
+  margin-bottom: 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.avatar-btn {
+  width: 160rpx;
+  height: 160rpx;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #F5F5F5;
+  border: 4rpx solid #E0E0E0;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+}
+
+.avatar-hint {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 12rpx;
+}
+
+.nickname-wrapper {
+  width: 100%;
+}
+
+.nickname-input {
+  width: 100%;
+  height: 80rpx;
+  border: 2rpx solid #E0E0E0;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* 登录按钮 */
+.login-btn {
+  width: 100%;
+  height: 96rpx;
+  background: #4CAF50;
+  color: #fff;
+  font-size: 34rpx;
+  font-weight: 600;
+  border-radius: 48rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.login-btn::after {
+  border: none;
+}
+
+.login-btn[disabled] {
+  background: #A5D6A7;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 错误提示 */
+.error-msg {
+  margin-top: 24rpx;
+  padding: 16rpx 32rpx;
+  background: #FFEBEE;
+  border-radius: 12rpx;
+}
+
+.error-msg text {
+  color: #E53935;
+  font-size: 26rpx;
+}
+
+/* 隐私说明 */
+.privacy-note {
+  margin-top: 60rpx;
+  text-align: center;
+}
+
+.privacy-note text {
+  font-size: 22rpx;
+  color: #A5D6A7;
+  display: block;
+  line-height: 1.6;
+}

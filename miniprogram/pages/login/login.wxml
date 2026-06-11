@@ -1,0 +1,60 @@
+<!-- 登录页 -->
+<view class="login-container">
+  <!-- Logo / 品牌 -->
+  <view class="brand-area">
+    <view class="logo">🏠</view>
+    <view class="app-name">窝记</view>
+    <view class="slogan">和Ta一起，记下生活</view>
+  </view>
+
+  <!-- 用户信息区 -->
+  <view class="user-form">
+    <!-- 头像选择 -->
+    <view class="avatar-wrapper">
+      <button
+        class="avatar-btn"
+        open-type="chooseAvatar"
+        bindchooseavatar="onChooseAvatar"
+      >
+        <image
+          class="avatar"
+          src="{{avatarUrl || '/images/default-avatar.png'}}"
+          mode="aspectFill"
+        />
+      </button>
+      <text class="avatar-hint">点击设置头像</text>
+    </view>
+
+    <!-- 昵称输入 -->
+    <view class="nickname-wrapper">
+      <input
+        class="nickname-input"
+        type="nickname"
+        placeholder="请输入昵称"
+        value="{{nickname}}"
+        bindinput="onNicknameInput"
+      />
+    </view>
+  </view>
+
+  <!-- 登录按钮 -->
+  <button
+    class="login-btn"
+    bindtap="onLogin"
+    loading="{{isLoggingIn}}"
+    disabled="{{isLoggingIn}}"
+  >
+    {{isLoggingIn ? '登录中...' : '微信一键登录'}}
+  </button>
+
+  <!-- 错误提示 -->
+  <view class="error-msg" wx:if="{{errorMsg}}">
+    <text>{{errorMsg}}</text>
+  </view>
+
+  <!-- 隐私说明 -->
+  <view class="privacy-note">
+    <text>登录即表示同意《用户协议》和《隐私政策》</text>
+    <text>我们仅获取你的头像和昵称用于家庭展示</text>
+  </view>
+</view>
