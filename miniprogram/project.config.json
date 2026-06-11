@@ -30,7 +30,7 @@
     "showES6CompileOption": false,
     "minifyWXML": true
   },
-  "appid": "",
+  "appid": "wx99ced774f0294f19",
   "projectname": "nest-ledger",
   "libVersion": "3.7.0",
   "condition": {}

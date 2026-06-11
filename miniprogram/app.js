@@ -2,7 +2,7 @@
 App({
   globalData: {
     // API 服务器地址，生产环境需修改
-    apiBaseUrl: 'http://localhost:8000/api/v1',
+    apiBaseUrl: 'http://1.12.252.29:8000/api/v1',
     token: '',
     userInfo: null,
     familyInfo: null,
