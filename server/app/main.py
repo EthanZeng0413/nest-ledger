@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import MONGODB_URL, MONGODB_DB_NAME
 from app.services.database import init_db, close_db
 from app.api.auth import router as auth_router
+from app.api.family import router as family_router
 
 
 @asynccontextmanager
@@ -36,6 +37,7 @@ app.add_middleware(
 
 # 注册路由
 app.include_router(auth_router)
+app.include_router(family_router)
 
 
 @app.get("/api/v1/health")
